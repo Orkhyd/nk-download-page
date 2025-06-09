@@ -1,4 +1,3 @@
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { Button } from './ui/button'
 import { useEffect, useState } from 'react'
 import { detectPlatform } from '@/lib/utils';
@@ -6,6 +5,7 @@ import windows from "@/assets/windows.svg";
 import macos from "@/assets/macos.svg";
 import linux from "@/assets/linux.svg";
 import logoNk from "@/assets/logonk.png";
+import screen from "@/assets/screen.png";
 
 export default function Hero() {
 
@@ -55,7 +55,7 @@ export default function Hero() {
           <img
             alt="Your Company"
             src={logoNk}
-            className="h-24"
+            className="h-32"
           />
           <div className="mt-24 sm:mt-32 lg:mt-16">
             <a href="#" className="inline-flex space-x-6">
@@ -68,18 +68,17 @@ export default function Hero() {
             Nippon Kempo Tournament
           </h1>
           <p className="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-            fugiat veniam occaecat.
+            Découvrez la nouvelle application de gestion de tournois de Nippon Kempo
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <Button className='rounded-2xl w-full bg-indigo-500/10 px-16 py-12 text-sm/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset'><img className='w-12 shadow-2xl' src={linux} />{`Télécharger pour ${client.os ? client.os[0].toUpperCase() + client.os.slice(1) : "Windows"}`}</Button>
+            <Button className='rounded-2xl w-full bg-indigo-500/10 px-16 py-12 text-xl/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset'><img className='w-12 shadow-2xl mr-6' src={client.os === "windows" ? windows : client.os === "linux" ? linux : client.os === "macos" ? macos : windows} />{`Télécharger pour ${client.os ? client.os[0].toUpperCase() + client.os.slice(1) : "Windows"}`}</Button>
           </div>
         </div>
         <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:mt-0 lg:mr-0 lg:ml-10 lg:max-w-none lg:flex-none xl:ml-32">
           <div className="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
             <img
               alt="App screenshot"
-              src="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
+              src={screen}
               width={2432}
               height={1442}
               className="w-304 rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10"
