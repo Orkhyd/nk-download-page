@@ -1,16 +1,65 @@
-import { Button } from './ui/button'
 import { useEffect, useState } from 'react'
 import { detectPlatform } from '@/lib/utils';
-import windows from "@/assets/windows.svg";
-import macos from "@/assets/macos.svg";
-import linux from "@/assets/linux.svg";
 import logoNk from "@/assets/logonk.png";
 import screen from "@/assets/screen.png";
+import GithubTag from './GithubTag';
+import GithubDownloadButton from './GithubDownloadButton';
+
+export interface GitHubRelease {
+  tag_name: string;
+  assets: GitHubAsset[];
+  name: string;
+  html_url: string;
+  published_at: string;
+}
+
+interface GitHubAsset {
+  name: string;
+  browser_download_url: string;
+  size: number;
+  download_count: number;
+  content_type: string;
+}
 
 export default function Hero() {
+  const client = detectPlatform();
+  const [latestRelease, setLatestRelease] = useState<GitHubRelease | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [client, setClient] = useState(detectPlatform());
-  useEffect(() => { }, [])
+  useEffect(() => {
+    const fetchLatestRelease = async () => {
+      setLoading(true);
+      setError(null);
+
+      const url = `https://api.github.com/repos/zen-browser/desktop/releases/latest`;
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            `GitHub API Error: ${errorData.message || response.statusText} (Status: ${response.status})`,
+          );
+        }
+
+        const data: GitHubRelease = await response.json();
+        setLatestRelease(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred.');
+        }
+        console.error('Failed to fetch latest release:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLatestRelease();
+  }, []);
 
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 min-h-screen">
@@ -57,13 +106,8 @@ export default function Hero() {
             src={logoNk}
             className="h-32"
           />
-          <div className="mt-24 sm:mt-32 lg:mt-16">
-            <a href="#" className="inline-flex space-x-6">
-              <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset">
-                Version 1.0
-              </span>
-            </a>
-          </div>
+          <GithubTag latestRelease={latestRelease} loading={loading} error={error} />
+
           <h1 className="mt-10 text-5xl font-semibold tracking-tight text-pretty text-white sm:text-7xl">
             Nippon Kempo Tournament
           </h1>
@@ -71,7 +115,7 @@ export default function Hero() {
             Découvrez la nouvelle application de gestion de tournois de Nippon Kempo
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <Button className='rounded-2xl w-full bg-indigo-500/10 px-16 py-12 text-xl/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset'><img className='w-12 shadow-2xl mr-6' src={client.os === "windows" ? windows : client.os === "linux" ? linux : client.os === "macos" ? macos : windows} />{`Télécharger pour ${client.os ? client.os[0].toUpperCase() + client.os.slice(1) : "Windows"}`}</Button>
+            <GithubDownloadButton owner='zen-browser' repo='desktop' client={client} latestRelease={latestRelease} loading={loading} error={error} />
           </div>
         </div>
         <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:mt-0 lg:mr-0 lg:ml-10 lg:max-w-none lg:flex-none xl:ml-32">

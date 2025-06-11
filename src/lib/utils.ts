@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 const ua = navigator.userAgent.toLowerCase().replace(/^mozilla\/\d\.\d\W/, '')
 
-interface PlatformInfo {
+export interface PlatformInfo {
   os: string | null;
   browser: string | null;
   version: string | null;
