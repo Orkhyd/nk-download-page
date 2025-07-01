@@ -32,7 +32,7 @@ export default function Hero() {
       setLoading(true);
       setError(null);
 
-      const url = `https://api.github.com/repos/orkhyd/Orkhyd/CESI-Local-NK-Tournament/releases/latest`;
+      const url = `https://api.github.com/repos/Orkhyd/CESI-Local-NK-Tournament/releases/latest`;
 
       try {
         const response = await fetch(url);
