@@ -115,7 +115,7 @@ export default function Hero() {
             Découvrez la nouvelle application de gestion de tournois de Nippon Kempo
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <GithubDownloadButton owner='zen-browser' repo='desktop' client={client} latestRelease={latestRelease} loading={loading} error={error} />
+            <GithubDownloadButton owner='Orkhyd' repo='CESI-Local-NK-Tournament' client={client} latestRelease={latestRelease} loading={loading} error={error} />
           </div>
         </div>
         <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:mt-0 lg:mr-0 lg:ml-10 lg:max-w-none lg:flex-none xl:ml-32">
